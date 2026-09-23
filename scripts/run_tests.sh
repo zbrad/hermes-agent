@@ -150,6 +150,14 @@ for _test_var in HERMES_TEST_IMAGE HERMES_TEST_WORKERS HERMES_TEST_PATHS \
   fi
 done
 
+# Local-only (py3.14 branch): forward LD_LIBRARY_PATH so a non-system libsqlite3
+# built from source (e.g. ~/.local/sqlite-3.53.4/lib, to get past a system
+# libsqlite3 that hits the WAL-reset bug) still resolves inside the hermetic
+# subprocess. A linker search path, not a credential.
+if [ -n "${LD_LIBRARY_PATH:-}" ]; then
+  TEST_ENV+=("LD_LIBRARY_PATH=$LD_LIBRARY_PATH")
+fi
+
 # ── Run in hermetic env ──────────────────────────────────────────────────────
 # env -i: start with empty environment, opt-in only what we need.
 # No credential var can leak — you'd have to explicitly add it here.
