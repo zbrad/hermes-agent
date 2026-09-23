@@ -5,14 +5,12 @@ name = "hermes-agent"
 version = "0.21.4"
 description = "The self-improving AI agent — creates skills from experience, improves them during use, and runs anywhere"
 readme = "README.md"
-# Upper bound is load-bearing, not cosmetic. uv resolves the project's
-# Python from `requires-python`, and an inherited `UV_PYTHON` env var (or a
-# fresh distro whose newest interpreter uv auto-picks) will otherwise select
-# 3.14, where Rust-backed transitives (e.g. pydantic-core) have no cp314
-# wheel yet and fall back to a maturin source build that fails. Capping at
-# <3.14 makes uv refuse 3.14 with a clear error instead of attempting that
-# build. Raise the ceiling once our Rust transitives ship cp314 wheels.
-requires-python = ">=3.11,<3.14"
+# Local override (2026-09-23): raised to <3.15 for a 3.14 build/test pass on
+# this fork. pydantic-core now ships a cp314 wheel (2.46.5), which was the
+# blocker cited below. Not verified against upstream's exact-pinned uv.lock —
+# this checkout installs relaxed (unpinned) versions instead; see
+# requirements-py314.txt.
+requires-python = ">=3.11,<3.15"
 authors = [{ name = "Nous Research" }]
 license = "MIT"
 license-files = ["LICENSE"]
