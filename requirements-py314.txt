@@ -51,7 +51,7 @@ httpx2<2.8
 starlette
 uvloop; sys_platform != 'win32' and sys_platform != 'cygwin' and sys_platform != 'android' and platform_python_implementation != 'PyPy'
 aiohttp
-agent-client-protocol
+agent-client-protocol<0.10
 google-api-python-client
 google-auth
 google-auth-oauthlib
